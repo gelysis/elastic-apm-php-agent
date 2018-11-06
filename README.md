@@ -50,7 +50,7 @@ $agent->captureThrowable( new Exception() );
 ```
 
 ### Adding spans
-Addings spans (https://www.elastic.co/guide/en/apm/server/current/transactions.html#transaction-spans) is easy.
+Addings spans (https://www.elastic.co/guide/en/apm/server/current/spans.html) is easy.
 Please consult the documentation for your exact needs. Below is an example for adding a MySQL span.
 
 ```php
@@ -136,32 +136,6 @@ $agent->getTransaction( $trxName )->setUserContext( [
 $agent->getTransaction( $trxName )->setTags( [ 'k1' => 'v1', 'k2' => 'v2' ] );  
 ```
 
-### Configuration
-```
-appName    : Name of this application, Required
-appVersion : Application version, Default: ''
-serverUrl  : APM Server Endpoint, Default: 'http://127.0.0.1:8200'
-secretToken: Secret token for APM Server, Default: null
-hostname   : Hostname to transmit to the APM Server, Default: gethostname()
-active     : Activate the APM Agent, Default: true
-timeout    : Guzzle Client timeout, Default: 5
-apmVersion : APM Server Intake API version, Default: 'v1'
-env        : $_SERVER vars to send to the APM Server, empty set sends all. Keys are case sensitive, Default: []
-```
-
-#### Example of an extended Configuration
-```php
-$config = [
-    'appName'     => 'My WebApp',
-    'appVersion'  => '1.0.42',
-    'serverUrl'   => 'http://apm-server.example.com',
-    'secretToken' => 'DKKbdsupZWEEzYd4LX34TyHF36vDKRJP',
-    'hostname'    => 'node-24.app.network.com',
-    'env'         => ['DOCUMENT_ROOT', 'REMOTE_ADDR'],
-];
-$agent = new \PhilKra\Agent($config);
-```
-
 ## Tests
 ```bash
 vendor/bin/phpunit
@@ -171,11 +145,11 @@ vendor/bin/phpunit
 
 ### Disable Agent for CLI
 In case you want to disable the agent dynamically for hybrid SAPI usage, please use the following snippet.
-´´´php
+```php
 'active' => PHP_SAPI !== 'cli'
-´´´
+```
 In case for the Laravel APM provider:
-´´´php
+```php
 'active' => PHP_SAPI !== 'cli' && env('ELASTIC_APM_ACTIVE', false)
-´´´
+```
 Thank you to @jblotus, (https://github.com/philkra/elastic-apm-laravel/issues/19)
