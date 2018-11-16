@@ -182,6 +182,18 @@ class EventBean
     }
 
     /**
+     * Get the sanitized Cookie Values
+     *
+     * @link https://github.com/philkra/elastic-apm-php-agent/issues/30
+     *
+     * @return array
+     */
+    final protected function getSanitizedCookie() : array
+    {
+        return $_COOKIE;
+    }
+
+    /**
      * Get the Events Context
      *
      * @link https://www.elastic.co/guide/en/apm/server/current/transaction-api.html#transaction-context-schema
@@ -222,7 +234,7 @@ class EventBean
 
         // Add Cookies Map
         if (empty($_COOKIE) === false) {
-            $context['request']['cookies'] = $_COOKIE;
+            $context['request']['cookies'] = $this->getSanitizedCookie();
         }
 
         // Add User Context
